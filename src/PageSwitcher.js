@@ -1,5 +1,7 @@
 // transition options: bottom, top, left, right, fade
-module.exports = function(homePageId, homeLinkId, transition = 'fade') {
+module.exports = function(
+    homePageId, homeLinkId,
+    transition = 'fade', onTo = ()=>{}, onFrom= ()=>{}) {
     const app = {
         pages: [],
         activeState: null,
@@ -62,8 +64,7 @@ module.exports = function(homePageId, homeLinkId, transition = 'fade') {
             opacity: 0;
         }`);
 
-    console.log(stylesheet);
-    const createPage = (pageId, linkId, transition) => {
+    const createPage = (pageId, linkId, transition, onTo, onFrom) => {
         const page = document.getElementById(pageId);
         const link = document.getElementById(linkId);
         page.classList.add('pageSwitcher');
@@ -73,10 +74,12 @@ module.exports = function(homePageId, homeLinkId, transition = 'fade') {
             from: () => {
                 page.classList.remove('-pageSwitcherActive');
                 link.classList.remove('-active');
+                onFrom();
             },
             to: () => {
                 page.classList.add('-pageSwitcherActive');
                 link.classList.add('-active');
+                onTo();
             },
         };
 
@@ -87,8 +90,9 @@ module.exports = function(homePageId, homeLinkId, transition = 'fade') {
         return state;
     };
 
-    app.addPage = (pageId, linkId, transition='fade') => {
-        app.pages.push(createPage(pageId, linkId, transition));
+    app.addPage =
+    (pageId, linkId, transition='fade', onTo = ()=>{}, onFrom= ()=>{}) => {
+        app.pages.push(createPage(pageId, linkId, transition, onTo, onFrom));
     };
 
     app.transition = (to) => {
@@ -97,7 +101,8 @@ module.exports = function(homePageId, homeLinkId, transition = 'fade') {
         app.activeState.to();
     };
 
-    app.activeState = createPage(homePageId, homeLinkId, transition);
+    app.activeState = createPage(
+        homePageId, homeLinkId, transition, onTo, onFrom);
     app.pages.push(app.activeState);
     app.activeState.to();
 
