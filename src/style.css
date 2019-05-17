@@ -72,18 +72,11 @@ nav ul {
 nav ul li {
     line-height: 100px;
     height: 100px;
+    z-index: 2003;
 }
 
 .page {
-    width: 100vw;
-    height: calc(100vh - 137px);
-    transform: translateY(100vh);
-    position: fixed;
-    transition: 1s;
-    top: 0;
-    z-index: 2000;
-}
-
-.page.-active {
-    transform: translateY(100px);
+    padding: 100px;
+    box-sizing: border-box;
+    z-index: 0;
 }
