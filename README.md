@@ -35,7 +35,7 @@ and when a link is clicked to a new page, it calls the appropriate
 transition functions, the from and to of the active and new page
 respectively.
 
-### How to use:
+### Usage:
 ```
 const PageSwitcher = require('./PageSwitcher.js');
 const pages = new PageSwitcher('home-page', 'home-link', 'fade', onTo, onFrom);
@@ -54,10 +54,20 @@ pages.addPage('page-1', 'page1-link', 'left', onTo, onFrom);
 The addPage function takes the same parameters as the constructor and can be called for as many
 pages are needed.
 
+## Hamburger Library:
+This might also be pulled into it's own repo.
+The hamburger library adds a simple hamburger button to a nav menu passed to it by id.
+This will hide and show the nav menu inside it, given that it is a ul.
+An optional second parameter can be passed to define the threshold width for the menu to
+appear, if omitted, the menu will always be visible.
 
+### Usage:
+```
+const Hamburger = require('./Hamburger.js');
+new Hamburger('nav', 940);
+```
 
 ## Future plans:
 * Transition from ESLint and stylelint to prettier.
 * Add in some other baseline css tweaks.
-* Add basic responsiveness.
-* Micro-library for a hamburger-based nav.
+* Add more basic responsiveness, particularly to the nav menu.
