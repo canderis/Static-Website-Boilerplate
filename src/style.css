@@ -80,3 +80,34 @@ nav ul li {
     box-sizing: border-box;
     z-index: 0;
 }
+
+#hamburger {
+    display: grid;
+    transition: 1s;
+    position: fixed;
+    cursor: pointer;
+    top: 20px;
+    left: 20px;
+    width: 30px;
+    grid-gap: 6px;
+    transform: translateX(0);
+    z-index: 9001;
+}
+
+#hamburger span {
+    display: block;
+    width: 30px;
+    height: 4px;
+    background-color: #fffc;
+    margin: auto;
+    border-radius: 3px;
+}
+
+#hamburger.show {
+    cursor: pointer;
+    opacity: 1;
+}
+
+#hamburger.portfolio {
+    transform: translateX(calc(-50vw + 30px));
+}
