@@ -6,7 +6,8 @@ Custom, basic website boilerplate so I don't have to keep starting from scratch 
 * ESLint
 * Webpack/babel
 * stylelint
-* micro-page switching library
+* Micro-library for page Switching
+* Micro-library for a hamburger nav menu
 * basic css & html page setup
 * build and dev commands
 
@@ -71,3 +72,7 @@ new Hamburger('nav', 940);
 * Add in some other baseline css tweaks.
 * Add more basic responsiveness, particularly to the nav menu.
 * url support for each page
+* Add in basic error page templates
+* Add in favicon support
+* Configure the htaccess file to be added to the dist folder on build
+* Set up image and other resource support
