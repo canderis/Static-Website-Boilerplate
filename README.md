@@ -34,26 +34,35 @@ The code functions by assigning a state to and from function to
 each page defined. It keeps track of the currently active page
 and when a link is clicked to a new page, it calls the appropriate
 transition functions, the from and to of the active and new page
-respectively.
+respectively and builds the proper browser history.
 
 ### Usage:
 ```
-const PageSwitcher = require('./PageSwitcher.js');
-const pages = new PageSwitcher('home-page', 'home-link', 'fade', onTo, onFrom);
-```
+import { Switcher, Page, Route } from "./PageSwitcher.js";
 
-The constructor takes 5 parameters: the id of the home page element; the id of the link to
-the home page; the style of animation to use: left, right, top, bottom or the default, fade;
-and then optionally it takes a function to call when the page is loaded,
-and another when it is unloaded.
+const pages = [
+    new Page("home-page", "home-link", { onTo: onTo, onFrom: onFrom }),
+    new Page("page-1", "page1-link", { transition: "left" }),
+    new Page("page-2", "page2-link", { transition: "right" })
+];
 
-Then, more pages can be registered with the switcher like so:
-```
-pages.addPage('page-1', 'page1-link', 'left', onTo, onFrom);
-```
+const routes = [
+    new Route("/", "home-page"),
+    new Route("/page-1", "page-1"),
+    new Route("/page-2", "page-2")
+];
 
-The addPage function takes the same parameters as the constructor and can be called for as many
-pages are needed.
+new Switcher(pages, routes);
+```
+The Switcher takes 2 parameters: an array of Pages, and an array of Routes.
+
+The Page object takes 3 parameters, the pageId, the linkId, and an optional configuration object.
+The configuration currently supports 3 properties:
+* transition, a string to define which animation style to use. Valid options are fade, left, right, top and bottom.
+* onTo, a hook to call when that page is loaded.
+* onFrom, a hook to call when the page is unloaded.
+
+The Route object takes 2 strings: the url, and the page associated with that url.
 
 ## Hamburger Library:
 This might also be pulled into it's own repo.
@@ -71,7 +80,6 @@ new Hamburger('nav', 940);
 ## Future plans:
 * Add in some other baseline css tweaks.
 * Add more basic responsiveness, particularly to the nav menu.
-* url support for each page
 * Add in basic error page templates
 * Add in favicon support
 * Configure the htaccess file to be added to the dist folder on build
