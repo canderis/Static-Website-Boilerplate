@@ -1,15 +1,15 @@
 module.exports = function(navId, widthThreshold = false) {
+    const element = document.createElement("style");
+    document.head.appendChild(element);
+
     const hamburger = document.createElement("div");
     const nav = document.getElementById(navId);
+
     nav.append(hamburger);
     hamburger.setAttribute("id", "hamburger");
     hamburger.append(document.createElement("span"));
     hamburger.append(document.createElement("span"));
     hamburger.append(document.createElement("span"));
-
-    const element = document.createElement("style");
-    document.head.appendChild(element);
-    const stylesheet = element.sheet;
 
     let css = [
         `#hamburger{
@@ -36,6 +36,7 @@ module.exports = function(navId, widthThreshold = false) {
         ];
     }
 
+    const stylesheet = element.sheet;
     css.forEach(val => {
         stylesheet.insertRule(val);
     });
