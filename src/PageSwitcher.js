@@ -1,20 +1,9 @@
 // transition options: bottom, top, left, right, fade
-module.exports = function(
-    homePageId,
-    homeLinkId,
-    transition = "fade",
-    onTo = () => {},
-    onFrom = () => {}
-) {
-    const app = {
-        pages: [],
-        activeState: null
-    };
-
+const buildStylesheet = function() {
     const element = document.createElement("style");
     document.head.appendChild(element);
-    const stylesheet = element.sheet;
 
+    const stylesheet = element.sheet;
     stylesheet.insertRule(`
 		.pageSwitcher.-pageSwitcherActive{
 			transform: translateY(0) translateX(0);
@@ -70,58 +59,82 @@ module.exports = function(
 			top: 0;
 			opacity: 0;
 		}`);
+};
 
-    const createPage = (pageId, linkId, transition, onTo, onFrom) => {
-        const page = document.getElementById(pageId);
-        const link = document.getElementById(linkId);
-        page.classList.add("pageSwitcher");
-        page.classList.add(`-pageSwitcher${transition}`);
+const createPage = function(page, app) {
+    const pageEl = document.getElementById(page.pageId);
+    const linkEl = document.getElementById(page.linkId);
+    pageEl.classList.add("pageSwitcher");
+    pageEl.classList.add(`-pageSwitcher${page.transition}`);
 
-        const state = {
-            from: () => {
-                page.classList.remove("-pageSwitcherActive");
-                link.classList.remove("-active");
-                onFrom();
-            },
-            to: () => {
-                page.classList.add("-pageSwitcherActive");
-                link.classList.add("-active");
-                onTo();
-            }
-        };
-
-        link.addEventListener("click", () => {
-            app.transition(state);
-        });
-
-        return state;
+    const state = {
+        from: () => {
+            pageEl.classList.remove("-pageSwitcherActive");
+            linkEl.classList.remove("-active");
+            page.onFrom();
+        },
+        to: () => {
+            pageEl.classList.add("-pageSwitcherActive");
+            linkEl.classList.add("-active");
+            page.onTo();
+        }
     };
 
-    app.addPage = (
-        pageId,
-        linkId,
-        transition = "fade",
-        onTo = () => {},
-        onFrom = () => {}
-    ) => {
-        app.pages.push(createPage(pageId, linkId, transition, onTo, onFrom));
+    linkEl.addEventListener("click", () => {
+        app.transition(state);
+    });
+
+    return state;
+};
+
+const switcher = function(pages, routes) {
+    const app = {
+        pages: new Map(),
+        routes: new Map(),
+        activeState: null,
+        transition: function(to) {
+            app.activeState.from();
+            app.activeState = to;
+            app.activeState.to();
+        }
     };
 
-    app.transition = to => {
-        app.activeState.from();
-        app.activeState = to;
-        app.activeState.to();
-    };
+    buildStylesheet();
 
-    app.activeState = createPage(
-        homePageId,
-        homeLinkId,
-        transition,
-        onTo,
-        onFrom
-    );
-    app.pages.push(app.activeState);
+    pages.forEach(page => {
+        app.pages.set(page.pageId, createPage(page, app));
+    });
+
+    routes.forEach(route => {
+        const page = app.pages.get(route.pageId);
+        app.routes.set(route.url, page);
+        page.route = route.url;
+    });
+
+    //get url
+    app.activeState = app.routes.get("/");
     app.activeState.to();
 
     return app;
+};
+
+const page = function(pageId, linkId, options = {}) {
+    const defaultOptions = {
+        pageId: pageId,
+        linkId: linkId,
+        transition: "fade",
+        onTo: () => {},
+        onFrom: () => {}
+    };
+    return Object.assign(defaultOptions, options);
+};
+
+const route = (url, pageId) => {
+    return { url: url, pageId: pageId };
+};
+
+module.exports = {
+    Switcher: switcher,
+    Page: page,
+    Route: route
 };
