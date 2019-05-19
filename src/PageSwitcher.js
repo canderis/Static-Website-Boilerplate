@@ -81,7 +81,7 @@ const createPage = function(page, app) {
     };
 
     linkEl.addEventListener("click", () => {
-        app.transition(state);
+        app.loadPage(state);
     });
 
     return state;
@@ -96,6 +96,14 @@ const switcher = function(pages, routes) {
             app.activeState.from();
             app.activeState = to;
             app.activeState.to();
+        },
+        loadPage: function(to) {
+            window.history.pushState(
+                {},
+                to.route,
+                window.location.origin + to.route
+            );
+            this.transition(to);
         }
     };
 
@@ -111,8 +119,11 @@ const switcher = function(pages, routes) {
         page.route = route.url;
     });
 
-    //get url
-    app.activeState = app.routes.get("/");
+    window.onpopstate = () => {
+        app.transition(app.routes.get(location.pathname));
+    };
+
+    app.activeState = app.routes.get(location.pathname);
     app.activeState.to();
 
     return app;
