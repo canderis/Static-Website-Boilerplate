@@ -68,6 +68,6 @@ new Hamburger('nav', 940);
 ```
 
 ## Future plans:
-* Transition from ESLint and stylelint to prettier.
 * Add in some other baseline css tweaks.
 * Add more basic responsiveness, particularly to the nav menu.
+* url support for each page

@@ -1,9 +1,6 @@
 {
-    "extends": "google",
+    "extends": "plugin:prettier/recommended",
     "parserOptions": {
         "sourceType": "module"
-    },
-    "rules": {
-        "indent": ["error", 4]
     }
 }
