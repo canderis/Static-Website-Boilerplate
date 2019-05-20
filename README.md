@@ -37,32 +37,21 @@ transition functions, the from and to of the active and new page
 respectively and builds the proper browser history.
 
 ### Usage:
+```js
+import { Switcher } from "./PageSwitcher.js";
+new Switcher();
 ```
-import { Switcher, Page, Route } from "./PageSwitcher.js";
+All the configuration is done in the html.
 
-const pages = [
-    new Page("home-page", "home-link", { onTo: onTo, onFrom: onFrom }),
-    new Page("page-1", "page1-link", { transition: "left" }),
-    new Page("page-2", "page2-link", { transition: "right" })
-];
-
-const routes = [
-    new Route("/", "home-page"),
-    new Route("/page-1", "page-1"),
-    new Route("/page-2", "page-2")
-];
-
-new Switcher(pages, routes);
+```html
+<!--Page Configuration-->
+<div ps-page="/page-1" ps-transition="left"></div>
+<!--Link Configuration-->
+<a ps-route="/page-1">Page 1</a>
 ```
-The Switcher takes 2 parameters: an array of Pages, and an array of Routes.
 
-The Page object takes 3 parameters, the pageId, the linkId, and an optional configuration object.
-The configuration currently supports 3 properties:
-* transition, a string to define which animation style to use. Valid options are fade, left, right, top and bottom.
-* onTo, a hook to call when that page is loaded.
-* onFrom, a hook to call when the page is unloaded.
-
-The Route object takes 2 strings: the url, and the page associated with that url.
+The home route is "/", and an unlimited number of links
+can be assigned to any given route.
 
 ## Hamburger Library:
 This might also be pulled into it's own repo.
@@ -72,7 +61,7 @@ An optional second parameter can be passed to define the threshold width for the
 appear, if omitted, the menu will always be visible.
 
 ### Usage:
-```
+```js
 const Hamburger = require('./Hamburger.js');
 new Hamburger('nav', 940);
 ```
@@ -80,7 +69,8 @@ new Hamburger('nav', 940);
 ## Future plans:
 * Add in some other baseline css tweaks.
 * Add more basic responsiveness, particularly to the nav menu.
-* Add in basic error page templates
 * Add in favicon support
 * Configure the htaccess file to be added to the dist folder on build
 * Set up image and other resource support
+* Add onload and unload hooks to the page Switcher
+* Page switcher error page configuration option
