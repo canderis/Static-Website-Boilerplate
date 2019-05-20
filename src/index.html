@@ -22,19 +22,18 @@
 <body>
     <nav id="nav">
         <ul id="nav-list" class="nav">
-            <li><a id="home-link" class="nav-link">Home</a></li>
-            <li><a id="page1-link" class="nav-link">Page 1</a></li>
-            <li><a id="page2-link" class="nav-link">Page 2</a></li>
+            <li><a id="home-link" ps-route="/" class="nav-link">Home</a></li>
+            <li><a id="page1-link" ps-route="/page-1" class="nav-link">Page 1</a></li>
+            <li><a id="page2-link" ps-route="/page-2" class="nav-link">Page 2</a></li>
         </ul>
     </nav>
-    <div class="page" id='home-page'>
+    <div class="page" ps-page="/" id='home-page'>
         Hi honey, I'm home!
-        <div></div>
     </div>
-    <div class="page" id="page-1">
+    <div class="page" ps-page="/page-1" ps-transition="left" id="page-1">
         One page to rule them all!
     </div>
-    <div class="page" id="page-2">
+    <div class="page" ps-page="/page-2" ps-transition="bottom" id="page-2">
         Always two there are; no more, no less.
     </div>
     <footer>

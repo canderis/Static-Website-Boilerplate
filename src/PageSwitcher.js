@@ -5,91 +5,75 @@ const buildStylesheet = function() {
 
     const stylesheet = element.sheet;
     stylesheet.insertRule(`
-		.pageSwitcher.-pageSwitcherActive{
+		[ps-page].-active{
 			transform: translateY(0) translateX(0);
 			opacity: 1;
-		}`);
+        }`);
 
     stylesheet.insertRule(`
-		.pageSwitcher.-pageSwitcherleft {
+		[ps-page]{
+			top: 0;
 			width: 100vw;
 			height: 100vh;
 			position: fixed;
 			transition: 1s;
-			top: 0;
+		}`);
+
+    stylesheet.insertRule(`
+        [ps-page][ps-transition="left"] {
 			transform: translateX(-100vw);
 		}`);
 
     stylesheet.insertRule(`
-		.pageSwitcher.-pageSwitcherright {
-			width: 100vw;
-			height: 100vh;
-			position: fixed;
-			transition: 1s;
-			top: 0;
+        [ps-page][ps-transition="right"] {
 			transform: translateX(100vw);
 		}`);
 
     stylesheet.insertRule(`
-		.pageSwitcher.-pageSwitchertop {
-			width: 100vw;
-			height: 100vh;
-			position: fixed;
-			transition: 1s;
-			top: 0;
+        [ps-page][ps-transition="top"] {
 			transform: translateY(-100vh);
 		}`);
 
     stylesheet.insertRule(`
-		.pageSwitcher.-pageSwitcherbottom {
-			width: 100vw;
-			height: 100vh;
-			position: fixed;
-			transition: 1s;
-			top: 0;
+        [ps-page][ps-transition="bottom"]{
 			transform: translateY(100vh);
 		}`);
 
     stylesheet.insertRule(`
-		.pageSwitcher.-pageSwitcherfade {
-			width: 100vw;
-			height: 100vh;
-			position: fixed;
-			transition: 1s;
-			top: 0;
+        [ps-page]:not(.-active) {
 			opacity: 0;
 		}`);
 };
 
-const createPage = function(page, app) {
-    const pageEl = document.getElementById(page.pageId);
-    const linkEl = document.getElementById(page.linkId);
-    pageEl.classList.add("pageSwitcher");
-    pageEl.classList.add(`-pageSwitcher${page.transition}`);
+const createPage = function(pageId, app) {
+    const pageEl = document.querySelector(`[ps-page="${pageId}"]`);
+    const linkEls = document.querySelectorAll(`[ps-route="${pageId}"]`);
 
     const state = {
+        route: pageId,
         from: () => {
-            pageEl.classList.remove("-pageSwitcherActive");
-            linkEl.classList.remove("-active");
-            page.onFrom();
+            pageEl.classList.remove("-active");
+            linkEls.forEach(link => link.classList.remove("-active"));
+            // page.onFrom();
         },
         to: () => {
-            pageEl.classList.add("-pageSwitcherActive");
-            linkEl.classList.add("-active");
-            page.onTo();
+            pageEl.classList.add("-active");
+            linkEls.forEach(link => link.classList.add("-active"));
+            // page.onTo();
         }
     };
 
-    linkEl.addEventListener("click", () => {
-        app.loadPage(state);
-    });
+    linkEls.forEach(link =>
+        link.addEventListener("click", () => {
+            app.loadPage(state);
+        })
+    );
 
     return state;
 };
 
 const switcher = function(pages, routes) {
     const app = {
-        pages: new Map(),
         routes: new Map(),
         activeState: null,
         transition: function(to) {
@@ -109,43 +93,25 @@ const switcher = function(pages, routes) {
 
     buildStylesheet();
 
-    pages.forEach(page => {
-        app.pages.set(page.pageId, createPage(page, app));
-    });
-
-    routes.forEach(route => {
-        const page = app.pages.get(route.pageId);
-        app.routes.set(route.url, page);
-        page.route = route.url;
+    document.querySelectorAll("[ps-page]").forEach(pageEl => {
+        const id = pageEl.getAttribute("ps-page");
+        app.routes.set(id, createPage(id, app));
     });
 
     window.onpopstate = () => {
-        app.transition(app.routes.get(location.pathname));
+        const page = app.routes.get(location.pathname);
+        if (page) app.transition(page);
     };
 
-    app.activeState = app.routes.get(location.pathname);
-    app.activeState.to();
+    const page = app.routes.get(location.pathname);
+    if (page) {
+        app.activeState = page;
+        app.activeState.to();
+    }
 
     return app;
 };
 
-const page = function(pageId, linkId, options = {}) {
-    const defaultOptions = {
-        pageId: pageId,
-        linkId: linkId,
-        transition: "fade",
-        onTo: () => {},
-        onFrom: () => {}
-    };
-    return Object.assign(defaultOptions, options);
-};
-
-const route = (url, pageId) => {
-    return { url: url, pageId: pageId };
-};
-
 module.exports = {
-    Switcher: switcher,
-    Page: page,
-    Route: route
+    Switcher: switcher
 };
