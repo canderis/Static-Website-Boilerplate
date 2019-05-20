@@ -10,6 +10,6 @@ document.addEventListener(`DOMContentLoaded`, () => {
         console.log("onfrom");
     };
 
-    new Switcher();
+    new Switcher("/page-1");
     new Hamburger("nav", 940);
 });

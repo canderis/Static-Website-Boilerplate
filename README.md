@@ -39,9 +39,9 @@ respectively and builds the proper browser history.
 ### Usage:
 ```js
 import { Switcher } from "./PageSwitcher.js";
-new Switcher();
+new Switcher(errorRoute);
 ```
-All the configuration is done in the html.
+The switcher object takes a route to be loaded in the event of an invalid url. Defaults to "/".
 
 ```html
 <!--Page Configuration-->
@@ -73,4 +73,3 @@ new Hamburger('nav', 940);
 * Configure the htaccess file to be added to the dist folder on build
 * Set up image and other resource support
 * Add onload and unload hooks to the page Switcher
-* Page switcher error page configuration option

@@ -72,7 +72,7 @@ const createPage = function(pageId, app) {
     return state;
 };
 
-const switcher = function(pages, routes) {
+const switcher = function(error = "/") {
     const app = {
         routes: new Map(),
         activeState: null,
@@ -88,7 +88,8 @@ const switcher = function(pages, routes) {
                 window.location.origin + to.route
             );
             this.transition(to);
-        }
+        },
+        error: error
     };
 
     buildStylesheet();
@@ -101,14 +102,24 @@ const switcher = function(pages, routes) {
     window.onpopstate = () => {
         const page = app.routes.get(location.pathname);
         if (page) app.transition(page);
+        else app.transition(app.routes.get(app.error));
     };
 
     const page = app.routes.get(location.pathname);
     if (page) {
         app.activeState = page;
         app.activeState.to();
+    } else {
+        app.activeState = app.routes.get(app.error);
+        window.history.replaceState(
+            {},
+            app.error,
+            window.location.origin + app.error
+        );
+        app.activeState.to();
     }
 
+    console.log(app);
     return app;
 };
 
