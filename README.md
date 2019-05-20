@@ -3,9 +3,8 @@
 Custom, basic website boilerplate so I don't have to keep starting from scratch every time I work on a new project
 
 ## Features:
-* ESLint
+* ESLint, stylelint, and prettier
 * Webpack/babel
-* stylelint
 * Micro-library for page Switching
 * Micro-library for a hamburger nav menu
 * basic css & html page setup
