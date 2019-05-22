@@ -76,6 +76,15 @@ nav ul li {
     z-index: 2003;
 }
 
+#home-page {
+    display: grid;
+    grid-template-rows: auto 1fr;
+}
+
+#home-page img {
+    margin: auto;
+}
+
 .page {
     padding: 100px;
     box-sizing: border-box;

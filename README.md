@@ -77,5 +77,4 @@ new Hamburger('nav', 940);
 * Add in some other baseline css tweaks.
 * Add more basic responsiveness, particularly to the nav menu.
 * Configure the htaccess file to be added to the dist folder on build & set up correctly
-* Set up image and other resource support
 * Add onload and unload hooks to the page Switcher
