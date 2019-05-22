@@ -1,59 +1,53 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CleanWebpackPlugin = require("clean-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
-    entry: './src/main.js',
+    entry: "./src/main.js",
     output: {
-        filename: 'bundle.js',
-        path: path.resolve(__dirname, 'dist'),
+        filename: "bundle.js",
+        path: path.resolve(__dirname, "dist")
     },
     module: {
         rules: [
             {
                 test: /\.js?$/,
                 exclude: /node_modules/,
-                loader: 'babel-loader',
+                loader: "babel-loader",
                 query: {
-                    presets: [
-                        '@babel/preset-env',
-                    ],
-                },
+                    presets: ["@babel/preset-env"]
+                }
             },
             {
                 test: /\.css$/,
-                use: [
-                    'style-loader',
-                    'css-loader',
-                ],
+                use: ["style-loader", "css-loader"]
             },
             {
                 test: /\.html$/,
-                use: [
-                    'html-loader',
-                ],
+                use: ["html-loader"]
             },
             {
-                test: /\.(png|jpg|svg)$/,
+                test: /\.(png|jpg|svg|gif|ico)$/,
                 use: [
                     {
-                        loader: 'file-loader',
+                        loader: "file-loader",
                         options: {
-                            name: '[name].[ext]',
-                            outputPath: 'images/',
-                        },
-                    },
-                ],
-            },
-        ],
+                            name: "[name].[ext]"
+                        }
+                    }
+                ]
+            }
+        ]
     },
     plugins: [
-        new CleanWebpackPlugin(['dist']),
+        new CleanWebpackPlugin(["dist"]),
         new HtmlWebpackPlugin({
-            template: './src/index.html',
+            template: "./src/index.html",
             minify: {
-                collapseWhitespace: true,
-            },
+                collapseWhitespace: true
+            }
         }),
-    ],
+        new CopyPlugin([{ from: "./src/icons", to: "./icons" }])
+    ]
 };
