@@ -119,7 +119,6 @@ const switcher = function(error = "/") {
         app.activeState.to();
     }
 
-    console.log(app);
     return app;
 };
 
