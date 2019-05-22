@@ -2,7 +2,8 @@
 
 Custom, basic website boilerplate so I don't have to keep starting from scratch every time I work on a new project
 
-## Features:
+## Features
+
 * ESLint, stylelint, and prettier
 * Webpack/babel
 * Micro-library for page Switching
@@ -10,23 +11,25 @@ Custom, basic website boilerplate so I don't have to keep starting from scratch 
 * basic css & html page setup
 * build and dev commands
 
+## Commands
 
-## Commands:
-
-### Dev:
+### Dev
 
 Launches a dev server, with live change detection.
-```
+
+```bash
 npm run dev
 ```
 
-### Build:
+### Build
+
 Builds a distribution ready package into /dist
-```
+
+```bash
 npm run build
 ```
 
-## Page Switching Library:
+## Page Switching Library
 
 I might pull this into it's own repo as it changes.
 The code functions by assigning a state to and from function to
@@ -35,11 +38,13 @@ and when a link is clicked to a new page, it calls the appropriate
 transition functions, the from and to of the active and new page
 respectively and builds the proper browser history.
 
-### Usage:
+### Page Switching Usage
+
 ```js
 import { Switcher } from "./PageSwitcher.js";
 new Switcher(errorRoute);
 ```
+
 The switcher object takes a route to be loaded in the event of an invalid url. Defaults to "/".
 
 ```html
@@ -52,23 +57,25 @@ The switcher object takes a route to be loaded in the event of an invalid url. D
 The home route is "/", and an unlimited number of links
 can be assigned to any given route.
 
-## Hamburger Library:
+## Hamburger Library
+
 This might also be pulled into it's own repo.
 The hamburger library adds a simple hamburger button to a nav menu passed to it by id.
 This will hide and show the nav menu inside it, given that it is a ul.
 An optional second parameter can be passed to define the threshold width for the menu to
 appear, if omitted, the menu will always be visible.
 
-### Usage:
+### Hamburger Usage
+
 ```js
 const Hamburger = require('./Hamburger.js');
 new Hamburger('nav', 940);
 ```
 
-## Future plans:
+## Future plans
+
 * Add in some other baseline css tweaks.
 * Add more basic responsiveness, particularly to the nav menu.
-* Add in favicon support
-* Configure the htaccess file to be added to the dist folder on build
+* Configure the htaccess file to be added to the dist folder on build & set up correctly
 * Set up image and other resource support
 * Add onload and unload hooks to the page Switcher
