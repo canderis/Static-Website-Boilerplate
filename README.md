@@ -78,8 +78,6 @@ new Hamburger('nav', 940);
 * Add more basic responsiveness, particularly to the nav menu.
 * Configure the htaccess file to be added to the dist folder on build & set up correctly
 * Add onload and unload hooks to the page Switcher
-* Autoprefixer/postcss
-* ESLint vs the other js linters
 * Think my prettierrc/stylelintrc/rc files need more tweaks
 * Shouldn't i have a babelrc?
 * Lazy loading
