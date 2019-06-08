@@ -8,7 +8,7 @@ const buildStylesheet = function() {
 		[ps-page].-active{
 			transform: translateY(0) translateX(0);
 			opacity: 1;
-        }`);
+		}`);
 
 	stylesheet.insertRule(`
 		[ps-page]{
@@ -20,27 +20,27 @@ const buildStylesheet = function() {
 		}`);
 
 	stylesheet.insertRule(`
-        [ps-page][ps-transition="left"] {
+		[ps-page][ps-transition="left"] {
 			transform: translateX(-100vw);
 		}`);
 
 	stylesheet.insertRule(`
-        [ps-page][ps-transition="right"] {
+		[ps-page][ps-transition="right"] {
 			transform: translateX(100vw);
 		}`);
 
 	stylesheet.insertRule(`
-        [ps-page][ps-transition="top"] {
+		[ps-page][ps-transition="top"] {
 			transform: translateY(-100vh);
 		}`);
 
 	stylesheet.insertRule(`
-        [ps-page][ps-transition="bottom"]{
+		[ps-page][ps-transition="bottom"]{
 			transform: translateY(100vh);
 		}`);
 
 	stylesheet.insertRule(`
-        [ps-page]:not(.-active) {
+		[ps-page]:not(.-active) {
 			opacity: 0;
 		}`);
 };
@@ -55,11 +55,13 @@ const createPage = function(pageId, app) {
 			pageEl.classList.remove("-active");
 			linkEls.forEach(link => link.classList.remove("-active"));
 			// page.onFrom();
+			pageEl.dispatchEvent(new Event("onFrom"));
 		},
 		to: () => {
 			pageEl.classList.add("-active");
 			linkEls.forEach(link => link.classList.add("-active"));
 			// page.onTo();
+			pageEl.dispatchEvent(new Event("onTo"));
 		}
 	};
 

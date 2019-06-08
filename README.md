@@ -57,6 +57,17 @@ The switcher object takes a route to be loaded in the event of an invalid url. D
 The home route is "/", and an unlimited number of links
 can be assigned to any given route.
 
+Transition event hooks can be added using the `onTo` and `onFrom` event listeners.
+
+```js
+document.getElementById("page-1").addEventListener("onTo", $event => {
+    console.log("onTo Page 1", $event);
+});
+document.getElementById("page-1").addEventListener("onFrom", $event => {
+    console.log("onFrom Page 1", $event);
+});
+```
+
 ## Hamburger Library
 
 This might also be pulled into it's own repo.
@@ -77,7 +88,6 @@ new Hamburger('nav', 940);
 * Add in some other baseline css tweaks.
 * Add more basic responsiveness, particularly to the nav menu.
 * Configure the htaccess file to be added to the dist folder on build & set up correctly
-* Add onload and unload hooks to the page Switcher
 * Think my prettierrc/stylelintrc/rc files need more tweaks
 * Shouldn't i have a babelrc?
 * Lazy loading
