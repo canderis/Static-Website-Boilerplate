@@ -1,47 +1,47 @@
 module.exports = function(navId, widthThreshold = false) {
-    const element = document.createElement("style");
-    document.head.appendChild(element);
+	const element = document.createElement("style");
+	document.head.appendChild(element);
 
-    const hamburger = document.createElement("div");
-    const nav = document.getElementById(navId);
+	const hamburger = document.createElement("div");
+	const nav = document.getElementById(navId);
 
-    nav.append(hamburger);
-    hamburger.setAttribute("id", "hamburger");
-    hamburger.append(document.createElement("span"));
-    hamburger.append(document.createElement("span"));
-    hamburger.append(document.createElement("span"));
+	nav.append(hamburger);
+	hamburger.setAttribute("id", "hamburger");
+	hamburger.append(document.createElement("span"));
+	hamburger.append(document.createElement("span"));
+	hamburger.append(document.createElement("span"));
 
-    let css = [
-        `#hamburger{
+	let css = [
+		`#hamburger{
             opacity: 1;
             transform: rotate(0);
         }`,
-        `#${navId}.-show #hamburger{
+		`#${navId}.-show #hamburger{
             transform: rotate(90deg);
         }`,
-        `#${navId}:not(.-show) ul {
+		`#${navId}:not(.-show) ul {
             opacity: 0;
         }`,
-        `#${navId} ul {
+		`#${navId} ul {
             opacity: 1;
             transition: 1s;
         }`
-    ];
+	];
 
-    if (widthThreshold) {
-        css = [
-            `@media only screen and (max-width: ${widthThreshold}px) {
+	if (widthThreshold) {
+		css = [
+			`@media only screen and (max-width: ${widthThreshold}px) {
                 ${css.join("")}
             }`
-        ];
-    }
+		];
+	}
 
-    const stylesheet = element.sheet;
-    css.forEach(val => {
-        stylesheet.insertRule(val);
-    });
+	const stylesheet = element.sheet;
+	css.forEach(val => {
+		stylesheet.insertRule(val);
+	});
 
-    stylesheet.insertRule(`
+	stylesheet.insertRule(`
         #hamburger {
             display: grid;
             transition: 1s;
@@ -54,7 +54,7 @@ module.exports = function(navId, widthThreshold = false) {
             grid-gap: 6px;
             z-index: 9001;
         }`);
-    stylesheet.insertRule(`
+	stylesheet.insertRule(`
         #hamburger span {
             display: block;
             width: 30px;
@@ -64,13 +64,13 @@ module.exports = function(navId, widthThreshold = false) {
             border-radius: 3px;
         }`);
 
-    let navVisible = false;
-    hamburger.addEventListener("click", () => {
-        if (!navVisible) {
-            nav.classList.add("-show");
-        } else {
-            nav.classList.remove("-show");
-        }
-        navVisible = !navVisible;
-    });
+	let navVisible = false;
+	hamburger.addEventListener("click", () => {
+		if (!navVisible) {
+			nav.classList.add("-show");
+		} else {
+			nav.classList.remove("-show");
+		}
+		navVisible = !navVisible;
+	});
 };
