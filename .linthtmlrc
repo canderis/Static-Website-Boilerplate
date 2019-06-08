@@ -11,7 +11,6 @@
 		"marginwidth",
 		"marginheight",
 		"scrolling",
-		"style",
 		"width"
 	],
 	"indent-delta": false,
@@ -43,7 +42,7 @@
 	"id-class-no-ad": true,
 	"id-class-style": "dash",
 	"class-no-dup": true,
-	"class-style": false,
+	"class-style": "bem",
 	"id-class-ignore-regex": false,
 	"img-req-alt": true,
 	"img-req-src": true,
