@@ -32,6 +32,9 @@ class Hamburger {
 			`#${this.navId} ul {
 				opacity: 1;
 				transition: 1s;
+            }`,
+			`#hamburger.-hide {
+				opacity: 0;
 			}`
 		];
 
@@ -69,10 +72,6 @@ class Hamburger {
 				background-color: #fffc;
 				margin: auto;
 				border-radius: 3px;
-			}`);
-		this.stylesheet.insertRule(`
-			#hamburger.-hide {
-				opacity: 0;
 			}`);
 
 		this.navVisible = false;
