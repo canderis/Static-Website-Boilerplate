@@ -79,7 +79,7 @@ appear, if omitted, the menu will always be visible.
 ### Hamburger Usage
 
 ```js
-const Hamburger = require('./Hamburger.js');
+import Hamburger from "./Hamburger.js";
 new Hamburger('nav', 940);
 ```
 
