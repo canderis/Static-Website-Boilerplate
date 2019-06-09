@@ -80,7 +80,14 @@ appear, if omitted, the menu will always be visible.
 
 ```js
 import Hamburger from "./Hamburger.js";
-new Hamburger('nav', 940);
+const hamburger = new Hamburger('nav', 940);
+```
+
+Extra functions include:
+
+```js
+hamburger.disableHamburger();
+hamburger.enableHamburger();
 ```
 
 ## Future plans

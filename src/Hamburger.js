@@ -2,8 +2,9 @@
 
 class Hamburger {
 	constructor(navId, widthThreshold) {
-		this.navId = navId;
 		this.widthThreshold = widthThreshold;
+
+		this.navId = navId;
 
 		this.element = document.createElement("style");
 		document.head.appendChild(this.element);
@@ -69,16 +70,36 @@ class Hamburger {
 				margin: auto;
 				border-radius: 3px;
 			}`);
+		this.stylesheet.insertRule(`
+			#hamburger.-hide {
+				opacity: 0;
+			}`);
 
 		this.navVisible = false;
 		this.hamburger.addEventListener("click", () => {
-			if (!this.navVisible) {
-				this.nav.classList.add("-show");
-			} else {
-				this.nav.classList.remove("-show");
-			}
-			this.navVisible = !this.navVisible;
+			this.toggleNav();
 		});
+	}
+
+	toggleNav() {
+		if (!this.navVisible) {
+			this.nav.classList.add("-show");
+		} else {
+			this.nav.classList.remove("-show");
+		}
+		this.navVisible = !this.navVisible;
+	}
+
+	disableHamburger() {
+		this.navVisible = true;
+		this.nav.classList.add("-show");
+		this.hamburger.classList.add("-hide");
+	}
+
+	enableHamburger() {
+		this.navVisible = false;
+		this.nav.classList.remove("-show");
+		this.hamburger.classList.remove("-hide");
 	}
 }
 

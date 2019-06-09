@@ -5,7 +5,7 @@ import Hamburger from "./Hamburger.js";
 
 document.addEventListener("DOMContentLoaded", () => {
 	new Switcher("/page-1");
-	new Hamburger("nav", 940);
+	const hamburger = new Hamburger("nav", 940);
 });
 
 document.getElementById("page-1").addEventListener("onTo", $event => {
