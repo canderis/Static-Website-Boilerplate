@@ -49,5 +49,11 @@ module.exports = {
 			}
 		}),
 		new CopyPlugin([{ from: "./src/icons", to: "./icons" }])
-	]
+	],
+	optimization: {
+		usedExports: true,
+		splitChunks: {
+			chunks: "all"
+		}
+	}
 };
