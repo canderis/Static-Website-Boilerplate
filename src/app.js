@@ -2,10 +2,12 @@
 
 import { Switcher } from "./PageSwitcher.js";
 import Hamburger from "./Hamburger.js";
+import Animate from "./Animate.js";
 
 document.addEventListener("DOMContentLoaded", () => {
 	new Switcher("/page-1");
 	const hamburger = new Hamburger("nav", 940);
+	new Animate();
 });
 
 document.getElementById("page-1").addEventListener("onTo", $event => {
