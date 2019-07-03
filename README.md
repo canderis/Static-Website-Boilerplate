@@ -93,10 +93,5 @@ hamburger.enableHamburger();
 ## Future plans
 
 * Add in some other baseline css tweaks.
-* Add more basic responsiveness, particularly to the nav menu.
+* The nav links should be able to toggle the hamburger
 * Configure the htaccess file to be added to the dist folder on build & set up correctly
-* Think my prettierrc/stylelintrc/rc files need more tweaks
-* Shouldn't i have a babelrc?
-* Lazy loading
-* Look into what else babel/webpack/prettier can do
-* Check out the prod build status
