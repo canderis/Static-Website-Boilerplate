@@ -94,4 +94,3 @@ hamburger.enableHamburger();
 
 * Add in some other baseline css tweaks.
 * The nav links should be able to toggle the hamburger
-* Configure the htaccess file to be added to the dist folder on build & set up correctly
