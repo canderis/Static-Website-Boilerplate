@@ -1,129 +1,130 @@
 // transition options: bottom, top, left, right, fade
-const buildStylesheet = function() {
-	const element = document.createElement("style");
-	document.head.appendChild(element);
 
-	const stylesheet = element.sheet;
-	stylesheet.insertRule(`
-		[ps-page].-active{
-			transform: translateY(0) translateX(0);
-			opacity: 1;
-		}`);
+class PageSwitcher {
+	constructor(error = "/") {
+		this.routes = new Map();
+		this.activeState = null;
+		this.error = error;
 
-	stylesheet.insertRule(`
-		[ps-page]{
-			top: 0;
-			width: 100vw;
-			height: 100vh;
-			position: fixed;
-			transition: 1s;
-		}`);
+		this.buildStylesheet();
 
-	stylesheet.insertRule(`
-		[ps-page][ps-transition="left"] {
-			transform: translateX(-100vw);
-		}`);
+		document.querySelectorAll("[ps-page]").forEach(pageEl => {
+			const id = pageEl.getAttribute("ps-page");
+			this.routes.set(id, this.createPage(id));
+		});
 
-	stylesheet.insertRule(`
-		[ps-page][ps-transition="right"] {
-			transform: translateX(100vw);
-		}`);
+		window.onpopstate = () => {
+			const page = this.routes.get(location.pathname);
+			if (page) this.transition(page);
+			else this.transition(this.routes.get(this.error));
+		};
 
-	stylesheet.insertRule(`
-		[ps-page][ps-transition="top"] {
-			transform: translateY(-100vh);
-		}`);
-
-	stylesheet.insertRule(`
-		[ps-page][ps-transition="bottom"]{
-			transform: translateY(100vh);
-		}`);
-
-	stylesheet.insertRule(`
-		[ps-page]:not(.-active) {
-			opacity: 0;
-		}`);
-};
-
-const createPage = function(pageId, app) {
-	const pageEl = document.querySelector(`[ps-page="${pageId}"]`);
-	const linkEls = document.querySelectorAll(`[ps-route="${pageId}"]`);
-
-	const state = {
-		route: pageId,
-		from: () => {
-			pageEl.classList.remove("-active");
-			linkEls.forEach(link => link.classList.remove("-active"));
-			// page.onFrom();
-			pageEl.dispatchEvent(new Event("onFrom"));
-		},
-		to: () => {
-			pageEl.classList.add("-active");
-			linkEls.forEach(link => link.classList.add("-active"));
-			// page.onTo();
-			pageEl.dispatchEvent(new Event("onTo"));
-		}
-	};
-
-	linkEls.forEach(link =>
-		link.addEventListener("click", () => {
-			app.loadPage(state);
-		})
-	);
-
-	return state;
-};
-
-const switcher = function(error = "/") {
-	const app = {
-		routes: new Map(),
-		activeState: null,
-		transition: function(to) {
-			app.activeState.from();
-			app.activeState = to;
-			app.activeState.to();
-		},
-		loadPage: function(to) {
-			window.history.pushState(
+		const page = this.routes.get(location.pathname);
+		if (page) {
+			this.activeState = page;
+			this.activeState.to();
+		} else {
+			this.activeState = this.routes.get(this.error);
+			window.history.replaceState(
 				{},
-				to.route,
-				window.location.origin + to.route
+				this.error,
+				window.location.origin + this.error
 			);
-			this.transition(to);
-		},
-		error: error
-	};
+			this.activeState.to();
+		}
 
-	buildStylesheet();
-
-	document.querySelectorAll("[ps-page]").forEach(pageEl => {
-		const id = pageEl.getAttribute("ps-page");
-		app.routes.set(id, createPage(id, app));
-	});
-
-	window.onpopstate = () => {
-		const page = app.routes.get(location.pathname);
-		if (page) app.transition(page);
-		else app.transition(app.routes.get(app.error));
-	};
-
-	const page = app.routes.get(location.pathname);
-	if (page) {
-		app.activeState = page;
-		app.activeState.to();
-	} else {
-		app.activeState = app.routes.get(app.error);
-		window.history.replaceState(
-			{},
-			app.error,
-			window.location.origin + app.error
-		);
-		app.activeState.to();
+		console.log(this.routes);
 	}
 
-	return app;
-};
+	loadPage(to) {
+		window.history.pushState(
+			{},
+			this.route,
+			window.location.origin + to.route
+		);
+		this.transition(to);
+	}
 
-module.exports = {
-	Switcher: switcher
-};
+	transition(to) {
+		this.activeState.from();
+		this.activeState = to;
+		this.activeState.to();
+	}
+
+	createPage(pageId) {
+		const pageEl = document.querySelector(`[ps-page="${pageId}"]`);
+		const linkEls = document.querySelectorAll(`[ps-route="${pageId}"]`);
+
+		const state = {
+			route: pageId,
+			from: () => {
+				pageEl.classList.remove("-active");
+				linkEls.forEach(link => link.classList.remove("-active"));
+				// page.onFrom();
+				pageEl.dispatchEvent(new Event("onFrom"));
+			},
+			to: () => {
+				pageEl.classList.add("-active");
+				linkEls.forEach(link => link.classList.add("-active"));
+				// page.onTo();
+				pageEl.dispatchEvent(new Event("onTo"));
+			}
+		};
+
+		linkEls.forEach(link =>
+			link.addEventListener("click", () => {
+				this.loadPage(state);
+			})
+		);
+
+		return state;
+	}
+
+	buildStylesheet() {
+		const element = document.createElement("style");
+		document.head.appendChild(element);
+
+		const stylesheet = element.sheet;
+		stylesheet.insertRule(`
+			[ps-page].-active{
+				transform: translateY(0) translateX(0);
+				opacity: 1;
+			}`);
+
+		stylesheet.insertRule(`
+			[ps-page]{
+				top: 0;
+				width: 100vw;
+				height: 100vh;
+				position: fixed;
+				transition: 1s;
+			}`);
+
+		stylesheet.insertRule(`
+			[ps-page][ps-transition="left"] {
+				transform: translateX(-100vw);
+			}`);
+
+		stylesheet.insertRule(`
+			[ps-page][ps-transition="right"] {
+				transform: translateX(100vw);
+			}`);
+
+		stylesheet.insertRule(`
+			[ps-page][ps-transition="top"] {
+				transform: translateY(-100vh);
+			}`);
+
+		stylesheet.insertRule(`
+			[ps-page][ps-transition="bottom"]{
+				transform: translateY(100vh);
+			}`);
+
+		stylesheet.insertRule(`
+			[ps-page]:not(.-active) {
+				opacity: 0;
+			}`);
+	}
+}
+
+export default PageSwitcher;

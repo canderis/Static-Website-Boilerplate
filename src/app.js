@@ -1,6 +1,6 @@
 "use strict";
 
-import { Switcher } from "./PageSwitcher.js";
+import Switcher from "./PageSwitcher.js";
 import Hamburger from "./Hamburger.js";
 import Animate from "./Animate.js";
 
